@@ -406,7 +406,37 @@ router.post('/appointment', (req, res) => {
 });
 
 router.get('/appointment/:id', (req, res) => {
-    //
+    resData = {
+        success: false,
+        errorMessage: '',
+        data: {},
+    };
+
+    let id = req.params.id;
+
+    //security check: remove all non-numeric characters from the id (if available).
+
+    id = id.replace(/\D/g, '');
+
+    //an ID will always be 16 characters (the 'createID' function above creates the IDs and it always returns a 16 character ID)
+
+    if (id.length === 16) {
+        //get the date and the time range information from the ID.
+
+        let date = id.slice(0, 8);
+        let timeRange = id.slice(8);
+
+        //convert the date and the timeRange into their real appearances
+
+        let formattedDate = date.slice(0, 4) + '-' + date.slice(4, 6) + '-' + date.slice(6);
+        let formattedTimeRange = timeRange.slice(0, 2) + ':' + timeRange.slice(2, 4) + ' - ' + timeRange.slice(4, 6) + ':' + timeRange.slice(6);
+    } else {
+        resData.errorMessage = 'Please provide a valid Appointment ID';
+    }
+
+    if (resData.errorMessage) {
+        return res.json(resData);
+    }
 });
 
 module.exports = router;
