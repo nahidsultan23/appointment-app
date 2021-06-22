@@ -123,24 +123,34 @@ const Appointments = (props) => {
     return (
         <React.Fragment>
             <div className="appointments">
-                <div className="appointment-table">
-                    <div className="content-title">
-                        <h1>All Appointments</h1>
+                {loading ? (
+                    <div className="spinner-border text-info" role="status">
+                        <span className="sr-only"></span>
                     </div>
-                    <table className="table table-striped table-dark">
-                        <thead>
-                            <tr>
-                                <th scope="col">Dates</th>
-                                <th scope="col">08:00 - 10:00</th>
-                                <th scope="col">10:00 - 12:00</th>
-                                <th scope="col">14:00 - 16:00</th>
-                                <th scope="col">16:00 - 18:00</th>
-                                <th scope="col">18:00 - 20:00</th>
-                            </tr>
-                        </thead>
-                        <tbody>{renderData()}</tbody>
-                    </table>
-                </div>
+                ) : errorMessage ? (
+                    <div className="error-message">
+                        <h1>{errorMessage}</h1>
+                    </div>
+                ) : (
+                    <div className="appointment-table">
+                        <div className="content-title">
+                            <h1>All Appointments</h1>
+                        </div>
+                        <table className="table table-striped table-dark">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Dates</th>
+                                    <th scope="col">08:00 - 10:00</th>
+                                    <th scope="col">10:00 - 12:00</th>
+                                    <th scope="col">14:00 - 16:00</th>
+                                    <th scope="col">16:00 - 18:00</th>
+                                    <th scope="col">18:00 - 20:00</th>
+                                </tr>
+                            </thead>
+                            <tbody>{renderData()}</tbody>
+                        </table>
+                    </div>
+                )}
             </div>
         </React.Fragment>
     );
