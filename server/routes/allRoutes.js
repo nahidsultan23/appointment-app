@@ -471,6 +471,8 @@ router.get('/appointment/:id', (req, res) => {
                             id: object.id,
                             name: object.name,
                             date: object.date,
+                            appointmentDate: formattedDate,
+                            dayName: object.dayName,
                             time: object.time,
                             timeRange: formattedTimeRange,
                         };
