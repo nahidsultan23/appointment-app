@@ -67,6 +67,10 @@ createID = (date, time) => {
     return plainDate + plainTime;
 };
 
+router.get('/home', (req, res) => {
+    //
+});
+
 router.post('/appointment', (req, res) => {
     resData = {
         success: false,
