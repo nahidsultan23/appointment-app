@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 import { getAppointmentData } from '../actions/homeActions';
 
-const Home = () => {
+const Home = (props) => {
     const [loading, setLoading] = useState(false);
     const [data, setData] = useState({});
     const [errorMessage, setErrorMessage] = useState('');
@@ -89,6 +89,29 @@ const Home = () => {
             });
     }, []);
 
+    const bookAppointment = (day, dayName, date, time) => {
+        let timeWithoutSpaces = time.replace(/ /g, '');
+
+        let splittedTime = timeWithoutSpaces.split('-');
+
+        let startTime = splittedTime[0].replace(':', '-');
+        let endTime = splittedTime[1].replace(':', '-');
+
+        let queryString = '?start=' + date + 'T' + startTime + '&end=' + date + 'T' + endTime;
+
+        //as the 'day' and 'dayName' are prepared by the server, I am sending them through the 'sate'.
+        //to show data extraction from 'search', the 'date' and 'timeRange' will be extracted from it in the '/appointment/new' page.
+
+        props.history.push({
+            pathname: '/appointment/new',
+            search: queryString,
+            state: {
+                day: day,
+                dayName: dayName,
+            },
+        });
+    };
+
     const renderDates = () => {
         if (data && data.dateNday && data.dateNday.length) {
             return data.dateNday.map((singleData) => {
@@ -96,6 +119,33 @@ const Home = () => {
                     <th scope="col" key={singleData.dayName}>
                         {singleData.dayName}, {singleData.day}
                     </th>
+                );
+            });
+        }
+    };
+
+    const renderDateData = (hr) => {
+        if (data && data[hr] && data[hr].length) {
+            return data[hr].map((singleData, index) => {
+                return (
+                    <td key={index}>
+                        {singleData && singleData.data ? (
+                            singleData.data === 'unavailable' ? (
+                                <div className="unavailable">Unavailable</div>
+                            ) : (
+                                <div className="name">{singleData.data.name}</div>
+                            )
+                        ) : (
+                            <div
+                                className="available"
+                                onClick={() => {
+                                    bookAppointment(singleData.day, singleData.dayName, singleData.date, singleData.time);
+                                }}
+                            >
+                                -
+                            </div>
+                        )}
+                    </td>
                 );
             });
         }
@@ -118,23 +168,11 @@ const Home = () => {
                         <tbody>
                             <tr>
                                 <th scope="row">08:00 - 10:00</th>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
+                                {renderDateData('hr0Data')}
                             </tr>
                             <tr>
                                 <th scope="row">10:00 - 12:00</th>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
+                                {renderDateData('hr1Data')}
                             </tr>
                             <tr>
                                 <th scope="row">12:00 - 14:00</th>
@@ -162,33 +200,15 @@ const Home = () => {
                             </tr>
                             <tr>
                                 <th scope="row">14:00 - 16:00</th>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
+                                {renderDateData('hr2Data')}
                             </tr>
                             <tr>
                                 <th scope="row">16:00 - 18:00</th>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
+                                {renderDateData('hr3Data')}
                             </tr>
                             <tr>
                                 <th scope="row">18:00 - 20:00</th>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
+                                {renderDateData('hr4Data')}
                             </tr>
                         </tbody>
                     </table>
