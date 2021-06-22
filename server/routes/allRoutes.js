@@ -524,6 +524,7 @@ router.get('/appointments', (req, res) => {
             for (let i = 0; i < sortedResult.length; i++) {
                 responseResult.push({
                     date: sortedResult[i].date,
+                    dayName: sortedResult[i].dayName,
                     hr0: JSON.parse(sortedResult[i].hr0),
                     hr1: JSON.parse(sortedResult[i].hr1),
                     hr2: JSON.parse(sortedResult[i].hr2),
