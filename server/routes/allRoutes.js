@@ -448,7 +448,7 @@ router.get('/appointment/:id', (req, res) => {
         }
 
         if (timeRangeForDB) {
-            //search for the appointment
+            //search for the appointment.
 
             let query = 'SELECT ' + timeRangeForDB + " FROM appointments WHERE date='" + formattedDate + "'";
             db.query(query, (err, result) => {
@@ -493,7 +493,7 @@ router.get('/appointments', (req, res) => {
         data: [],
     };
 
-    //get all the appointments from the database
+    //get all the appointments from the database.
 
     let query = 'SELECT * FROM appointments';
 
@@ -505,7 +505,14 @@ router.get('/appointments', (req, res) => {
         resData.success = true;
 
         if (result.length) {
-            //
+            //in the database, the appointments are not sorted according to their dates.
+            //the appointments will be sorted according to their dates before sending them to the client.
+
+            let sortedResult = result.sort(
+                (a, b) =>
+                    new Date(a.date.split('-')[0], a.date.split('-')[1] - 1, a.date.split('-')[2]).getTime() -
+                    new Date(b.date.split('-')[0], b.date.split('-')[1] - 1, b.date.split('-')[2]).getTime()
+            );
         }
 
         return res.json(resData);
