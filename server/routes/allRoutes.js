@@ -68,7 +68,106 @@ createID = (date, time) => {
 };
 
 router.get('/home', (req, res) => {
-    //
+    resData = {
+        success: false,
+        errorMessage: '',
+        data: [],
+    };
+
+    let currentTimeStamp = new Date().getTime();
+
+    //As appointments can only be booked on a future date, the next 7 days have been calculated by adding 24 hours for each day.
+    //next7Days array will be prepared to send to the client.
+
+    let next7Days = [];
+    let days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+
+    for (i = 0; i < 7; i++) {
+        let newTimeStamp = currentTimeStamp + 24 * 3600 * 1000 * (i + 1);
+        let date = new Date(newTimeStamp);
+        let day = date.getDate();
+        let dayName = days[date.getDay()];
+
+        if (day % 10 === 1) {
+            day = day + 'st';
+        } else if (day % 10 === 2) {
+            day = day + 'nd';
+        } else if (day % 10 === 3) {
+            day = day + 'rd';
+        } else {
+            day = day + 'th';
+        }
+
+        if (dayName === 'Saturday' || dayName === 'Sunday') {
+            next7Days.push({
+                day: day,
+                dayName: dayName,
+                date: convertTimeStampIntoDate(newTimeStamp),
+                hourData: {
+                    hr0: 'unavailable',
+                    hr1: 'unavailable',
+                    hr2: 'unavailable',
+                    hr3: 'unavailable',
+                    hr4: 'unavailable',
+                },
+            });
+        } else {
+            next7Days.push({
+                day: day,
+                dayName: dayName,
+                date: convertTimeStampIntoDate(newTimeStamp),
+                hourData: {
+                    hr0: '',
+                    hr1: '',
+                    hr2: '',
+                    hr3: '',
+                    hr4: '',
+                },
+            });
+        }
+    }
+
+    //fetch the next 7 days' data from the database.
+
+    let query =
+        'SELECT * ' +
+        'FROM appointments ' +
+        "WHERE date='" +
+        next7Days[0].date +
+        "' " +
+        "OR date='" +
+        next7Days[1].date +
+        "' " +
+        "OR date='" +
+        next7Days[2].date +
+        "' " +
+        "OR date='" +
+        next7Days[3].date +
+        "' " +
+        "OR date='" +
+        next7Days[4].date +
+        "' " +
+        "OR date='" +
+        next7Days[5].date +
+        "' " +
+        "OR date='" +
+        next7Days[6].date +
+        "'";
+
+    db.query(query, (err, result) => {
+        if (err) {
+            resData.errorMessage = 'Something went wrong! Please try again';
+            return res.json(resData);
+        }
+
+        if (result.length) {
+            //
+        }
+
+        resData.success = true;
+        resData.data = next7Days;
+        return res.json(resData);
+    });
 });
 
 router.post('/appointment', (req, res) => {
