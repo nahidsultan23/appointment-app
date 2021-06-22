@@ -56,6 +56,14 @@ const AppointmentDetails = (props) => {
                                     <td>{data.id}</td>
                                 </tr>
                                 <tr>
+                                    <th scope="col">Appointment Date</th>
+                                    <td>{data.appointmentDate}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="col">Week Day</th>
+                                    <td>{data.dayName}</td>
+                                </tr>
+                                <tr>
                                     <th scope="col">Appointment Time</th>
                                     <td>{data.timeRange}</td>
                                 </tr>

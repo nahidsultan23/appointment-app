@@ -455,7 +455,7 @@ router.get('/appointment/:id', (req, res) => {
         if (timeRangeForDB) {
             //search for the appointment.
 
-            let query = 'SELECT ' + timeRangeForDB + " FROM appointments WHERE date='" + formattedDate + "'";
+            let query = 'SELECT dayName, ' + timeRangeForDB + " FROM appointments WHERE date='" + formattedDate + "'";
             db.query(query, (err, result) => {
                 if (err) {
                     resData.errorMessage = 'Something went wrong! Please try again';
@@ -472,7 +472,7 @@ router.get('/appointment/:id', (req, res) => {
                             name: object.name,
                             date: object.date,
                             appointmentDate: formattedDate,
-                            dayName: object.dayName,
+                            dayName: result[0].dayName,
                             time: object.time,
                             timeRange: formattedTimeRange,
                         };
