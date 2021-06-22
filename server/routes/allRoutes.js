@@ -169,7 +169,35 @@ router.post('/appointment', (req, res) => {
                                 }
 
                                 if (result.length) {
-                                    //
+                                    //the date exists in the database. Check whether the time is already booked or not.
+
+                                    if (result[0][timeRangeForDB]) {
+                                        //the time is already taken.
+
+                                        resData.errorMessage = 'The time has already been booked. Please choose another time';
+                                        return res.json(resData);
+                                    } else {
+                                        //the time is available for appointment.
+
+                                        query =
+                                            'UPDATE appointments SET ' +
+                                            timeRangeForDB +
+                                            "='" +
+                                            stringObject +
+                                            "' WHERE date='" +
+                                            reAssembledDate +
+                                            "'";
+
+                                        db.query(query, (err, result) => {
+                                            if (err) {
+                                                resData.errorMessage = 'Something went wrong! Please try again';
+                                                return res.json(resData);
+                                            }
+
+                                            resData.success = true;
+                                            return res.json(resData);
+                                        });
+                                    }
                                 } else {
                                     //the date doesn't exist in the database. So, it can be inserted as a new row.
 
