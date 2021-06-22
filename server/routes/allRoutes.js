@@ -361,11 +361,16 @@ router.post('/appointment', (req, res) => {
                                 } else {
                                     //the date doesn't exist in the database. So, it can be inserted as a new row.
 
+                                    let days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+                                    let dayName = days[day];
+
                                     query =
-                                        'INSERT INTO appointments (date, ' +
+                                        'INSERT INTO appointments (date, dayName, ' +
                                         timeRangeForDB +
                                         ") VALUES ('" +
                                         reAssembledDate +
+                                        "', '" +
+                                        dayName +
                                         "', '" +
                                         stringObject +
                                         "')";
