@@ -2,6 +2,30 @@ const express = require('express');
 const router = express.Router();
 const moment = require('moment');
 
+convertTimeStampIntoDate = (timeStamp) => {
+    //function to convert a timeStamp into a date in the format yyyy-mm-dd
+
+    let date = new Date(timeStamp);
+
+    let day = convertIntoTwoCharacters(date.getDate().toString());
+    let month = convertIntoTwoCharacters((date.getMonth() + 1).toString());
+    let year = date.getFullYear();
+
+    return year + '-' + month + '-' + day;
+};
+
+convertTimeStampIntoTime = (timeStamp) => {
+    //function to convert a timeStamp into a time in the format hh:mm:ss
+
+    let date = new Date(timeStamp);
+
+    let hour = convertIntoTwoCharacters(date.getHours().toString());
+    let minute = convertIntoTwoCharacters(date.getMinutes().toString());
+    let second = convertIntoTwoCharacters(date.getSeconds().toString());
+
+    return hour + ':' + minute + ':' + second;
+};
+
 getTimeStampOfNext8thDay = (timeStamp) => {
     //function to calculate the timestamp of 12:00 AM of the 7th day starting from tomorrow (8th day starting from today)
 
@@ -18,6 +42,17 @@ getTimeStampOfNext8thDay = (timeStamp) => {
     let eighthDayTimeStamp = timeStamp - ((hour * 3600 + minute * 60 + second) * 1000 + millisecond) + 24 * 3600 * 1000 * 8;
 
     return eighthDayTimeStamp;
+};
+
+createID = (date, time) => {
+    //function to create a unique ID for an appointment data
+
+    let plainDate = date.replace(/-/g, '');
+    let plainTime = time.replace(/ /g, '');
+    plainTime = plainTime.replace(/-/g, '');
+    plainTime = plainTime.replace(/:/g, '');
+
+    return plainDate + plainTime;
 };
 
 router.post('/appointment', (req, res) => {
@@ -72,9 +107,31 @@ router.post('/appointment', (req, res) => {
                 let currentTimeStamp = new Date().getTime();
 
                 //appointments can only be fixed within the next 7 days starting from tomorrow.
-                //so, we need the timeStamp of the 12:00 AM on 8th day to validate the provided time by the client.
+                //so, we need the timeStamp of 12:00 AM on the 8th day to validate the provided time by the client.
 
                 let timeStampOfTheNext8thDay = getTimeStampOfNext8thDay(currentTimeStamp);
+
+                //create an object with id, name, date and the time of the booking.
+                //this object will be stored in the database.
+
+                let object = {
+                    id: createID(reAssembledDate, timeRange),
+                    name: name,
+                    date: convertTimeStampIntoDate(currentTimeStamp),
+                    time: convertTimeStampIntoTime(currentTimeStamp),
+                };
+
+                //as the database stores text data, the object will be converted into a string to store it in the database
+
+                let stringObject = JSON.stringify(object);
+
+                if (timeStamp > currentTimeStamp && timeStamp < timeStampOfTheNext8thDay) {
+                    //
+                } else if (timeStamp <= currentTimeStamp) {
+                    resData.errorMessage = 'Please select a future date to book an appointment';
+                } else if (timeStamp >= timeStampOfTheNext8thDay) {
+                    resData.errorMessage = 'Appointments can only be booked within the next 7 days';
+                }
             } else {
                 resData.errorMessage = 'You must provide a valid date and a valid time to book an appointment';
             }
