@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const moment = require('moment');
 
+const db = require('../db/dbConnect');
+
 convertTimeStampIntoDate = (timeStamp) => {
     //function to convert a timeStamp into a date in the format yyyy-mm-dd
 
@@ -137,7 +139,7 @@ router.post('/appointment', (req, res) => {
                     if (day && day < 6) {
                         let timeRangeForDB = '';
 
-                        //prepare the time range for the database
+                        //prepare the time range for the database.
 
                         if (timeRange === '08:00 - 10:00') {
                             timeRangeForDB = 'hr0';
@@ -156,7 +158,41 @@ router.post('/appointment', (req, res) => {
                         }
 
                         if (timeRangeForDB) {
-                            //
+                            //check whether the date already exists in the database or not.
+
+                            let query = "SELECT * FROM appointments WHERE date='" + reAssembledDate + "'";
+
+                            db.query(query, (err, result) => {
+                                if (err) {
+                                    resData.errorMessage = 'Something went wrong! Please try again';
+                                    return res.json(resData);
+                                }
+
+                                if (result.length) {
+                                    //
+                                } else {
+                                    //the date doesn't exist in the database. So, it can be inserted as a new row.
+
+                                    query =
+                                        'INSERT INTO appointments (date, ' +
+                                        timeRangeForDB +
+                                        ") VALUES ('" +
+                                        reAssembledDate +
+                                        "', '" +
+                                        stringObject +
+                                        "')";
+
+                                    db.query(query, (err, result) => {
+                                        if (err) {
+                                            resData.errorMessage = 'Something went wrong! Please try again';
+                                            return res.json(resData);
+                                        }
+
+                                        resData.success = true;
+                                        return res.json(resData);
+                                    });
+                                }
+                            });
                         }
                     } else {
                         resData.errorMessage = 'Appointments cannot be booked on Saturday or Sunday';
