@@ -492,6 +492,24 @@ router.get('/appointments', (req, res) => {
         errorMessage: '',
         data: [],
     };
+
+    //get all the appointments from the database
+
+    let query = 'SELECT * FROM appointments';
+
+    db.query(query, (err, result) => {
+        if (err) {
+            resData.errorMessage = 'Something went wrong! Please try again';
+        }
+
+        resData.success = true;
+
+        if (result.length) {
+            //
+        }
+
+        return res.json(resData);
+    });
 });
 
 module.exports = router;
