@@ -161,7 +161,54 @@ router.get('/home', (req, res) => {
         }
 
         if (result.length) {
-            //
+            //add the data from the database to the next7Days array.
+
+            for (let i = 0; i < result.length; i++) {
+                let date = result[i].date;
+                let index = next7Days.findIndex((a) => a.date === date);
+
+                if (result[i].hr0) {
+                    //the data was saved as string in the database.
+                    //before sending it to the client, the string will be converted into JSON object.
+
+                    let object = JSON.parse(result[i].hr0);
+
+                    //the ' from the name was replaced with % before saving the name into the database.
+                    //before sending the name to the client, that ' will be returned.
+
+                    object.name = object.name.replace(/%/g, "'");
+
+                    next7Days[index].hourData.hr0 = object;
+                }
+
+                if (result[i].hr1) {
+                    let object = JSON.parse(result[i].hr1);
+                    object.name = object.name.replace(/%/g, "'");
+
+                    next7Days[index].hourData.hr1 = object;
+                }
+
+                if (result[i].hr2) {
+                    let object = JSON.parse(result[i].hr2);
+                    object.name = object.name.replace(/%/g, "'");
+
+                    next7Days[index].hourData.hr2 = object;
+                }
+
+                if (result[i].hr3) {
+                    let object = JSON.parse(result[i].hr3);
+                    object.name = object.name.replace(/%/g, "'");
+
+                    next7Days[index].hourData.hr3 = object;
+                }
+
+                if (result[i].hr4) {
+                    let object = JSON.parse(result[i].hr4);
+                    object.name = object.name.replace(/%/g, "'");
+
+                    next7Days[index].hourData.hr4 = object;
+                }
+            }
         }
 
         resData.success = true;
