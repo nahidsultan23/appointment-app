@@ -4,6 +4,16 @@ const moment = require('moment');
 
 const db = require('../db/dbConnect');
 
+convertIntoTwoCharacters = (string) => {
+    //function to convert the day, month, hour, minute and second into 2 characters
+
+    if (string.length < 2) {
+        string = '0' + string;
+    }
+
+    return string;
+};
+
 convertTimeStampIntoDate = (timeStamp) => {
     //function to convert a timeStamp into a date in the format yyyy-mm-dd
 
