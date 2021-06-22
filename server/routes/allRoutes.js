@@ -486,4 +486,12 @@ router.get('/appointment/:id', (req, res) => {
     }
 });
 
+router.get('/appointments', (req, res) => {
+    resData = {
+        success: false,
+        errorMessage: '',
+        data: [],
+    };
+});
+
 module.exports = router;
