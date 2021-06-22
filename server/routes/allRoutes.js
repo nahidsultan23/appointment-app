@@ -126,7 +126,19 @@ router.post('/appointment', (req, res) => {
                 let stringObject = JSON.stringify(object);
 
                 if (timeStamp > currentTimeStamp && timeStamp < timeStampOfTheNext8thDay) {
-                    //
+                    //the date is fine. Now, check the day.
+                    //appointments cannot be booked on Saturday or Sunday.
+
+                    let day = formattedDate.getDay();
+
+                    //Sunday is day=0 and Saturday is day=6
+                    //so a valid day will be from day=1 to day=5
+
+                    if (day && day < 6) {
+                        //
+                    } else {
+                        resData.errorMessage = 'Appointments cannot be booked on Saturday or Sunday';
+                    }
                 } else if (timeStamp <= currentTimeStamp) {
                     resData.errorMessage = 'Please select a future date to book an appointment';
                 } else if (timeStamp >= timeStampOfTheNext8thDay) {
