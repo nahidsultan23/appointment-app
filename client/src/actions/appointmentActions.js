@@ -13,3 +13,17 @@ export async function bookAppointment(obj) {
         console.error(error);
     }
 }
+
+export async function getAllAppointments() {
+    try {
+        let response = await axios.get('/api/appointments');
+
+        if (response && response.data) {
+            return response.data;
+        } else {
+            return null;
+        }
+    } catch (error) {
+        console.error(error);
+    }
+}
