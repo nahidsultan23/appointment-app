@@ -123,3 +123,30 @@
     border: 1px solid white;
     color: #084d6d;
 }
+
+/*-------------------- Appointment Details --------------------*/
+
+.appointment-details .appointment-details-area {
+    width: 1000px;
+    margin: 0 auto;
+    margin-top: 100px;
+}
+
+.appointment-details .content-title {
+    text-align: center;
+    margin-bottom: 20px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    color: #012231;
+}
+
+.appointment-details table {
+    text-align: center;
+}
+
+.appointment-details table th {
+    min-width: 200px;
+}
+
+.appointment-details .appointment-details-area .booked-by {
+    word-break: break-word;
+}
