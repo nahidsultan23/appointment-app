@@ -1,6 +1,38 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
-const AppointmentDetails = () => {
+import { getAppointmentDetails } from '../actions/appointmentActions';
+
+const AppointmentDetails = (props) => {
+    if (!props.match.params.id) {
+        props.history.push('/appointments');
+    }
+
+    const [loading, setLoading] = useState(false);
+    const [data, setData] = useState({});
+    const [errorMessage, setErrorMessage] = useState('');
+
+    useEffect(() => {
+        setLoading(true);
+        const result = getAppointmentDetails(props.match.params.id);
+
+        result
+            .then((res) => {
+                if (res.success) {
+                    setData(res.data);
+                    setErrorMessage('');
+                } else {
+                    setData([]);
+                    setErrorMessage(res.errorMessage);
+                }
+            })
+            .catch((err) => {
+                setErrorMessage('Server connection error!');
+            })
+            .finally(() => {
+                setLoading(false);
+            });
+    }, [props.match.params]);
+
     return (
         <React.Fragment>
             <div className="appointment-details">
