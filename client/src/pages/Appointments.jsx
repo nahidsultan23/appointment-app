@@ -34,42 +34,44 @@ const Appointments = () => {
             });
     }, []);
 
+    const renderData = () => {
+        if (data && data.length) {
+            return data.map((singleData) => {
+                return (
+                    <tr key={singleData.date}>
+                        <th scope="col">{singleData.date}</th>
+                        <td>{singleData.hr0 ? <div className="name">{singleData.hr0.name}</div> : '-'}</td>
+                        <td>{singleData.hr1 ? <div className="name">{singleData.hr1.name}</div> : '-'}</td>
+                        <td>{singleData.hr2 ? <div className="name">{singleData.hr2.name}</div> : '-'}</td>
+                        <td>{singleData.hr3 ? <div className="name">{singleData.hr3.name}</div> : '-'}</td>
+                        <td>{singleData.hr4 ? <div className="name">{singleData.hr4.name}</div> : '-'}</td>
+                    </tr>
+                );
+            });
+        }
+    };
+
     return (
         <React.Fragment>
-            <div className="appointment-table">
-                <div className="content-title">
-                    <h1>All Appointments</h1>
+            <div className="appointments">
+                <div className="appointment-table">
+                    <div className="content-title">
+                        <h1>All Appointments</h1>
+                    </div>
+                    <table className="table table-striped table-dark">
+                        <thead>
+                            <tr>
+                                <th scope="col">Dates</th>
+                                <th scope="col">08:00 - 10:00</th>
+                                <th scope="col">10:00 - 12:00</th>
+                                <th scope="col">14:00 - 16:00</th>
+                                <th scope="col">16:00 - 18:00</th>
+                                <th scope="col">18:00 - 20:00</th>
+                            </tr>
+                        </thead>
+                        <tbody>{renderData()}</tbody>
+                    </table>
                 </div>
-                <table className="table table-striped table-dark">
-                    <thead>
-                        <tr>
-                            <th scope="col">Dates</th>
-                            <th scope="col">08:00 - 10:00</th>
-                            <th scope="col">10:00 - 12:00</th>
-                            <th scope="col">14:00 - 16:00</th>
-                            <th scope="col">16:00 - 18:00</th>
-                            <th scope="col">18:00 - 20:00</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <th scope="col"></th>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <th scope="col"></th>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                    </tbody>
-                </table>
             </div>
         </React.Fragment>
     );
