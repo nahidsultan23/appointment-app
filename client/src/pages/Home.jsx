@@ -89,6 +89,18 @@ const Home = () => {
             });
     }, []);
 
+    const renderDates = () => {
+        if (data && data.dateNday && data.dateNday.length) {
+            return data.dateNday.map((singleData) => {
+                return (
+                    <th scope="col" key={singleData.dayName}>
+                        {singleData.dayName}, {singleData.day}
+                    </th>
+                );
+            });
+        }
+    };
+
     return (
         <React.Fragment>
             <div className="homepage">
@@ -100,13 +112,7 @@ const Home = () => {
                         <thead>
                             <tr>
                                 <th scope="col">Hours</th>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
+                                {renderDates()}
                             </tr>
                         </thead>
                         <tbody>
