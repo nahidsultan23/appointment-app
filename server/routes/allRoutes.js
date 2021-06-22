@@ -135,7 +135,29 @@ router.post('/appointment', (req, res) => {
                     //so a valid day will be from day=1 to day=5
 
                     if (day && day < 6) {
-                        //
+                        let timeRangeForDB = '';
+
+                        //prepare the time range for the database
+
+                        if (timeRange === '08:00 - 10:00') {
+                            timeRangeForDB = 'hr0';
+                        } else if (timeRange === '10:00 - 12:00') {
+                            timeRangeForDB = 'hr1';
+                        } else if (timeRange === '12:00 - 14:00') {
+                            resData.errorMessage = 'Appointments cannot be booked from 12:00 to 14:00. Please select another time';
+                        } else if (timeRange === '14:00 - 16:00') {
+                            timeRangeForDB = 'hr2';
+                        } else if (timeRange === '16:00 - 18:00') {
+                            timeRangeForDB = 'hr3';
+                        } else if (timeRange === '18:00 - 20:00') {
+                            timeRangeForDB = 'hr4';
+                        } else {
+                            resData.errorMessage = 'Please select a valid time';
+                        }
+
+                        if (timeRangeForDB) {
+                            //
+                        }
                     } else {
                         resData.errorMessage = 'Appointments cannot be booked on Saturday or Sunday';
                     }
