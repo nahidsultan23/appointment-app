@@ -273,6 +273,20 @@ router.post('/appointment', (req, res) => {
 
                 let timeStampOfTheNext8thDay = getTimeStampOfNext8thDay(currentTimeStamp);
 
+                //create an object with id, name, date and the time of the booking.
+                //this object will be stored in the database.
+
+                let object = {
+                    id: createID(reAssembledDate, timeRange),
+                    name: name,
+                    date: convertTimeStampIntoDate(currentTimeStamp),
+                    time: convertTimeStampIntoTime(currentTimeStamp),
+                };
+
+                //as the database stores text data, the object will be converted into a string to store it in the database
+
+                let stringObject = JSON.stringify(object);
+
                 if (timeStamp > currentTimeStamp && timeStamp < timeStampOfTheNext8thDay) {
                     //the date is fine. Now, check the day.
                     //appointments cannot be booked on Saturday or Sunday.
@@ -283,23 +297,6 @@ router.post('/appointment', (req, res) => {
                     //so a valid day will be from day=1 to day=5
 
                     if (day && day < 6) {
-                        let days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-
-                        //create an object with id, name, date and the time of the booking.
-                        //this object will be stored in the database.
-
-                        let object = {
-                            id: createID(reAssembledDate, timeRange),
-                            name: name,
-                            date: convertTimeStampIntoDate(currentTimeStamp),
-                            time: convertTimeStampIntoTime(currentTimeStamp),
-                            dayName: days[day],
-                        };
-
-                        //as the database stores text data, the object will be converted into a string to store it in the database
-
-                        let stringObject = JSON.stringify(object);
-
                         let timeRangeForDB = '';
 
                         //prepare the time range for the database.

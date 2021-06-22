@@ -8,6 +8,7 @@ db.query(query, (err, result) => {
             'CREATE TABLE appointments (' +
             'id INT(6) AUTO_INCREMENT PRIMARY KEY, ' +
             'date TEXT, ' +
+            'dayName TEXT, ' +
             'hr0 TEXT, ' +
             'hr1 TEXT, ' +
             'hr2 TEXT, ' +
