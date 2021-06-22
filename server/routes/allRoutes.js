@@ -405,4 +405,8 @@ router.post('/appointment', (req, res) => {
     }
 });
 
+router.get('/appointment/:id', (req, res) => {
+    //
+});
+
 module.exports = router;
