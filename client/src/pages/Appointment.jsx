@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
+import { bookAppointment } from '../actions/appointmentActions';
+
 const Appointment = (props) => {
     if (!(props.location.search && props.location.state)) {
         props.history.push('/home');
@@ -33,6 +35,30 @@ const Appointment = (props) => {
         }
     }, [props.location.search]);
 
+    const submitForm = (e) => {
+        e.preventDefault();
+
+        let requestObject = {
+            date: date,
+            timeRange: timeRange,
+            name: name,
+        };
+
+        const result = bookAppointment(requestObject);
+
+        result
+            .then((res) => {
+                if (res.success) {
+                    props.history.push('/home');
+                } else {
+                    setErrorMessage(res.errorMessage);
+                }
+            })
+            .catch((err) => {
+                setErrorMessage('Server connection error!');
+            });
+    };
+
     return (
         <React.Fragment>
             <div className="appointment">
@@ -49,7 +75,11 @@ const Appointment = (props) => {
                     ) : (
                         ''
                     )}
-                    <form>
+                    <form
+                        onSubmit={(e) => {
+                            submitForm(e);
+                        }}
+                    >
                         <div>
                             <div className="form-group row">
                                 <label htmlFor="inputNameTitle" className="col-sm-4 col-form-label">
