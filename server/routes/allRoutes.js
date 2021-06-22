@@ -426,10 +426,57 @@ router.get('/appointment/:id', (req, res) => {
         let date = id.slice(0, 8);
         let timeRange = id.slice(8);
 
-        //convert the date and the timeRange into their real appearances
+        //convert the date and the timeRange into their real appearances.
 
         let formattedDate = date.slice(0, 4) + '-' + date.slice(4, 6) + '-' + date.slice(6);
         let formattedTimeRange = timeRange.slice(0, 2) + ':' + timeRange.slice(2, 4) + ' - ' + timeRange.slice(4, 6) + ':' + timeRange.slice(6);
+
+        let timeRangeForDB = '';
+
+        if (formattedTimeRange === '08:00 - 10:00') {
+            timeRangeForDB = 'hr0';
+        } else if (formattedTimeRange === '10:00 - 12:00') {
+            timeRangeForDB = 'hr1';
+        } else if (formattedTimeRange === '14:00 - 16:00') {
+            timeRangeForDB = 'hr2';
+        } else if (formattedTimeRange === '16:00 - 18:00') {
+            timeRangeForDB = 'hr3';
+        } else if (formattedTimeRange === '18:00 - 20:00') {
+            timeRangeForDB = 'hr4';
+        } else {
+            resData.errorMessage = 'Please provide a valid Appointment ID';
+        }
+
+        if (timeRangeForDB) {
+            //search for the appointment
+
+            let query = 'SELECT ' + timeRangeForDB + " FROM appointments WHERE date='" + formattedDate + "'";
+            db.query(query, (err, result) => {
+                if (err) {
+                    resData.errorMessage = 'Something went wrong! Please try again';
+                } else {
+                    if (result.length === 1) {
+                        //the data in the database is a string.
+                        //it will be converted into a JSON object before sending it to the client.
+
+                        let object = JSON.parse(result[0][timeRangeForDB]);
+
+                        resData.success = true;
+                        resData.data = {
+                            id: object.id,
+                            name: object.name,
+                            date: object.date,
+                            time: object.time,
+                            timeRange: formattedTimeRange,
+                        };
+                    } else {
+                        resData.errorMessage = 'Please provide a valid Appointment ID';
+                    }
+                }
+
+                return res.json(resData);
+            });
+        }
     } else {
         resData.errorMessage = 'Please provide a valid Appointment ID';
     }
