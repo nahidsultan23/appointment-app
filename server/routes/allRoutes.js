@@ -513,6 +513,21 @@ router.get('/appointments', (req, res) => {
                     new Date(a.date.split('-')[0], a.date.split('-')[1] - 1, a.date.split('-')[2]).getTime() -
                     new Date(b.date.split('-')[0], b.date.split('-')[1] - 1, b.date.split('-')[2]).getTime()
             );
+
+            let responseResult = [];
+
+            for (let i = 0; i < sortedResult.length; i++) {
+                responseResult.push({
+                    date: sortedResult[i].date,
+                    hr0: JSON.parse(sortedResult[i].hr0),
+                    hr1: JSON.parse(sortedResult[i].hr1),
+                    hr2: JSON.parse(sortedResult[i].hr2),
+                    hr3: JSON.parse(sortedResult[i].hr3),
+                    hr4: JSON.parse(sortedResult[i].hr4),
+                });
+            }
+
+            resData.data = responseResult;
         }
 
         return res.json(resData);
