@@ -36,35 +36,45 @@ const AppointmentDetails = (props) => {
     return (
         <React.Fragment>
             <div className="appointment-details">
-                <div className="appointment-details-area">
-                    <div className="content-title">
-                        <h1>Appointment Details</h1>
+                {loading ? (
+                    <div className="spinner-border text-info" role="status">
+                        <span className="sr-only"></span>
                     </div>
-                    <table className="table table-striped table-dark">
-                        <tbody>
-                            <tr>
-                                <th scope="col">Appointment ID</th>
-                                <td>{data.id}</td>
-                            </tr>
-                            <tr>
-                                <th scope="col">Appointment Time</th>
-                                <td>{data.timeRange}</td>
-                            </tr>
-                            <tr>
-                                <th scope="col">Booked by</th>
-                                <td>
-                                    <div className="booked-by">{data.name}</div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="col">Booked on</th>
-                                <td>
-                                    {data.date} at {data.time}
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+                ) : errorMessage ? (
+                    <div className="error-message">
+                        <h1>{errorMessage}</h1>
+                    </div>
+                ) : (
+                    <div className="appointment-details-area">
+                        <div className="content-title">
+                            <h1>Appointment Details</h1>
+                        </div>
+                        <table className="table table-striped table-dark">
+                            <tbody>
+                                <tr>
+                                    <th scope="col">Appointment ID</th>
+                                    <td>{data.id}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="col">Appointment Time</th>
+                                    <td>{data.timeRange}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="col">Booked by</th>
+                                    <td>
+                                        <div className="booked-by">{data.name}</div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="col">Booked on</th>
+                                    <td>
+                                        {data.date} at {data.time}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                )}
             </div>
         </React.Fragment>
     );
