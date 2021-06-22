@@ -44,21 +44,23 @@ const AppointmentDetails = (props) => {
                         <tbody>
                             <tr>
                                 <th scope="col">Appointment ID</th>
-                                <td></td>
+                                <td>{data.id}</td>
                             </tr>
                             <tr>
                                 <th scope="col">Appointment Time</th>
-                                <td></td>
+                                <td>{data.timeRange}</td>
                             </tr>
                             <tr>
                                 <th scope="col">Booked by</th>
                                 <td>
-                                    <div className="booked-by"></div>
+                                    <div className="booked-by">{data.name}</div>
                                 </td>
                             </tr>
                             <tr>
                                 <th scope="col">Booked on</th>
-                                <td></td>
+                                <td>
+                                    {data.date} at {data.time}
+                                </td>
                             </tr>
                         </tbody>
                     </table>
