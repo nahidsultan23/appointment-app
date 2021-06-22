@@ -13,6 +13,10 @@ app.use(
 
 require('./createTables');
 
+const routes = require('./routes/allRoutes');
+
+app.use('/api', routes);
+
 const PORT = 5000;
 
 app.listen(PORT, () => {
