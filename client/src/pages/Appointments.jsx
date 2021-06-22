@@ -1,6 +1,39 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+
+import { getAllAppointments } from '../actions/appointmentActions';
 
 const Appointments = () => {
+    const [loading, setLoading] = useState(false);
+    const [data, setData] = useState([]);
+    const [errorMessage, setErrorMessage] = useState('');
+
+    useEffect(() => {
+        setLoading(true);
+        const result = getAllAppointments();
+
+        result
+            .then((res) => {
+                if (res.success) {
+                    if (res.data.length) {
+                        setData(res.data);
+                        setErrorMessage('');
+                    } else {
+                        setData([]);
+                        setErrorMessage('No appointment data to show');
+                    }
+                } else {
+                    setData([]);
+                    setErrorMessage(res.errorMessage);
+                }
+            })
+            .catch((err) => {
+                setErrorMessage('Server connection error!');
+            })
+            .finally(() => {
+                setLoading(false);
+            });
+    }, []);
+
     return (
         <React.Fragment>
             <div className="appointment-table">
