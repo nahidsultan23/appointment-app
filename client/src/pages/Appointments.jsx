@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 import { getAllAppointments } from '../actions/appointmentActions';
 
-const Appointments = () => {
+const Appointments = (props) => {
     const [loading, setLoading] = useState(false);
     const [data, setData] = useState([]);
     const [errorMessage, setErrorMessage] = useState('');
@@ -34,17 +34,86 @@ const Appointments = () => {
             });
     }, []);
 
+    const appointmentDetails = (id) => {
+        props.history.push('/appointments/' + id);
+    };
+
     const renderData = () => {
         if (data && data.length) {
             return data.map((singleData) => {
                 return (
                     <tr key={singleData.date}>
                         <th scope="col">{singleData.date}</th>
-                        <td>{singleData.hr0 ? <div className="name">{singleData.hr0.name}</div> : '-'}</td>
-                        <td>{singleData.hr1 ? <div className="name">{singleData.hr1.name}</div> : '-'}</td>
-                        <td>{singleData.hr2 ? <div className="name">{singleData.hr2.name}</div> : '-'}</td>
-                        <td>{singleData.hr3 ? <div className="name">{singleData.hr3.name}</div> : '-'}</td>
-                        <td>{singleData.hr4 ? <div className="name">{singleData.hr4.name}</div> : '-'}</td>
+                        <td>
+                            {singleData.hr0 ? (
+                                <div
+                                    className="name"
+                                    onClick={() => {
+                                        appointmentDetails(singleData.hr0.id);
+                                    }}
+                                >
+                                    {singleData.hr0.name}
+                                </div>
+                            ) : (
+                                '-'
+                            )}
+                        </td>
+                        <td>
+                            {singleData.hr1 ? (
+                                <div
+                                    className="name"
+                                    onClick={() => {
+                                        appointmentDetails(singleData.hr1.id);
+                                    }}
+                                >
+                                    {singleData.hr1.name}
+                                </div>
+                            ) : (
+                                '-'
+                            )}
+                        </td>
+                        <td>
+                            {singleData.hr2 ? (
+                                <div
+                                    className="name"
+                                    onClick={() => {
+                                        appointmentDetails(singleData.hr2.id);
+                                    }}
+                                >
+                                    {singleData.hr2.name}
+                                </div>
+                            ) : (
+                                '-'
+                            )}
+                        </td>
+                        <td>
+                            {singleData.hr3 ? (
+                                <div
+                                    className="name"
+                                    onClick={() => {
+                                        appointmentDetails(singleData.hr3.id);
+                                    }}
+                                >
+                                    {singleData.hr3.name}
+                                </div>
+                            ) : (
+                                '-'
+                            )}
+                        </td>
+                        <td>
+                            {singleData.hr4 ? (
+                                <div
+                                    className="name"
+                                    onClick={() => {
+                                        appointmentDetails(singleData.hr4.id);
+                                    }}
+                                >
+                                    {singleData.hr4.name}
+                                </div>
+                            ) : (
+                                '-'
+                            )}
+                        </td>
                     </tr>
                 );
             });
