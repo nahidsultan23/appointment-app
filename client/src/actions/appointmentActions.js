@@ -27,3 +27,17 @@ export async function getAllAppointments() {
         console.error(error);
     }
 }
+
+export async function getAppointmentDetails(id) {
+    try {
+        let response = await axios.get('/api/appointment/' + id);
+
+        if (response && response.data) {
+            return response.data;
+        } else {
+            return null;
+        }
+    } catch (error) {
+        console.error(error);
+    }
+}
