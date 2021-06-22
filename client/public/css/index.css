@@ -1,0 +1,66 @@
+/*-------------------- Common --------------------*/
+
+.spinner-border {
+    position: absolute;
+    top: 20%;
+    left: 50%;
+}
+
+.error-message {
+    position: absolute;
+    width: 800px;
+    top: 20%;
+    left: 50%;
+    margin-left: -400px;
+    text-align: center;
+}
+
+/*-------------------- Homepage --------------------*/
+
+.homepage .appointment-table {
+    width: 1400px;
+    margin: 0 auto;
+    margin-top: 100px;
+}
+
+.homepage .appointment-table .content-title {
+    text-align: center;
+    margin-bottom: 20px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    color: #012231;
+}
+
+.homepage table {
+    text-align: center;
+}
+
+.homepage .unavailable {
+    width: 120px;
+    margin: 0 auto;
+    border-radius: 5px;
+    background-color: grey;
+    border: 1px solid grey;
+}
+
+.homepage .name {
+    width: 150px;
+    margin: 0 auto;
+    overflow: hidden;
+    max-height: 30px;
+}
+
+.homepage .available {
+    width: 150px;
+    margin: 0 auto;
+    cursor: pointer;
+    color: green;
+    background-color: #95dbfc;
+    border: 1px solid #95dbfc;
+    border-radius: 2px;
+}
+
+.homepage .available:hover {
+    background-color: white;
+    border: 1px solid white;
+    color: #084d6d;
+}
