@@ -154,65 +154,75 @@ const Home = (props) => {
     return (
         <React.Fragment>
             <div className="homepage">
-                <div className="appointment-table">
-                    <div className="content-title">
-                        <h1>Week Schedule</h1>
+                {loading ? (
+                    <div className="spinner-border text-info" role="status">
+                        <span className="sr-only"></span>
                     </div>
-                    <table className="table table-striped table-dark">
-                        <thead>
-                            <tr>
-                                <th scope="col">Hours</th>
-                                {renderDates()}
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <th scope="row">08:00 - 10:00</th>
-                                {renderDateData('hr0Data')}
-                            </tr>
-                            <tr>
-                                <th scope="row">10:00 - 12:00</th>
-                                {renderDateData('hr1Data')}
-                            </tr>
-                            <tr>
-                                <th scope="row">12:00 - 14:00</th>
-                                <td>
-                                    <div className="unavailable">Unavailable</div>
-                                </td>
-                                <td>
-                                    <div className="unavailable">Unavailable</div>
-                                </td>
-                                <td>
-                                    <div className="unavailable">Unavailable</div>
-                                </td>
-                                <td>
-                                    <div className="unavailable">Unavailable</div>
-                                </td>
-                                <td>
-                                    <div className="unavailable">Unavailable</div>
-                                </td>
-                                <td>
-                                    <div className="unavailable">Unavailable</div>
-                                </td>
-                                <td>
-                                    <div className="unavailable">Unavailable</div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">14:00 - 16:00</th>
-                                {renderDateData('hr2Data')}
-                            </tr>
-                            <tr>
-                                <th scope="row">16:00 - 18:00</th>
-                                {renderDateData('hr3Data')}
-                            </tr>
-                            <tr>
-                                <th scope="row">18:00 - 20:00</th>
-                                {renderDateData('hr4Data')}
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+                ) : errorMessage ? (
+                    <div className="error-message">
+                        <h1>{errorMessage}</h1>
+                    </div>
+                ) : (
+                    <div className="appointment-table">
+                        <div className="content-title">
+                            <h1>Week Schedule</h1>
+                        </div>
+                        <table className="table table-striped table-dark">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Hours</th>
+                                    {renderDates()}
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th scope="row">08:00 - 10:00</th>
+                                    {renderDateData('hr0Data')}
+                                </tr>
+                                <tr>
+                                    <th scope="row">10:00 - 12:00</th>
+                                    {renderDateData('hr1Data')}
+                                </tr>
+                                <tr>
+                                    <th scope="row">12:00 - 14:00</th>
+                                    <td>
+                                        <div className="unavailable">Unavailable</div>
+                                    </td>
+                                    <td>
+                                        <div className="unavailable">Unavailable</div>
+                                    </td>
+                                    <td>
+                                        <div className="unavailable">Unavailable</div>
+                                    </td>
+                                    <td>
+                                        <div className="unavailable">Unavailable</div>
+                                    </td>
+                                    <td>
+                                        <div className="unavailable">Unavailable</div>
+                                    </td>
+                                    <td>
+                                        <div className="unavailable">Unavailable</div>
+                                    </td>
+                                    <td>
+                                        <div className="unavailable">Unavailable</div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">14:00 - 16:00</th>
+                                    {renderDateData('hr2Data')}
+                                </tr>
+                                <tr>
+                                    <th scope="row">16:00 - 18:00</th>
+                                    {renderDateData('hr3Data')}
+                                </tr>
+                                <tr>
+                                    <th scope="row">18:00 - 20:00</th>
+                                    {renderDateData('hr4Data')}
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                )}
             </div>
         </React.Fragment>
     );
